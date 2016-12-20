@@ -10,7 +10,6 @@ ORZ: 草帽框架
 --------------
 当前版本 0.1.1
 - 功能
-- 20.0 API Diffs from 19.0: [guava][guava-release-api-diffs]
 
 关于作者
 --------------
