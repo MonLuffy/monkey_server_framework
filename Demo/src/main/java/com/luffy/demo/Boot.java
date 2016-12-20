@@ -1,14 +1,16 @@
 package com.luffy.demo;
 
+import com.luffy.framework.config.Env;
 import com.luffy.framework.utils.Bootstrap;
 
 public class Boot {
-    private static final String MODULE ="demo";
     public static void main(String[] args) {
         Thread mainThread = Thread.currentThread();
-        mainThread.setName(MODULE);
+        String module = "demo";
+        Env.set(Env.MODULE, module);
+        mainThread.setName(module);
         try {
-            Bootstrap bootstrap = new Bootstrap(MODULE,true);
+            Bootstrap bootstrap = new Bootstrap(module,true);
             bootstrap.start();
         } catch (Exception e) {
             e.printStackTrace();

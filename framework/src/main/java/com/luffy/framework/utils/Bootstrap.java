@@ -1,5 +1,8 @@
 package com.luffy.framework.utils;
 
+import com.luffy.framework.config.Env;
+import com.luffy.framework.file.CheckFile;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bootstrap {
-    private static final String HOME = "com.luffy";
     private static final String LIB = "lib";
     private static final String EXT = LIB + File.separatorChar + "/ext";
 
@@ -48,7 +50,7 @@ public class Bootstrap {
 
 
     private void setHome() {
-        String appPath = System.getProperty(HOME);
+        String appPath = System.getProperty(Env.HOME);
         if (appPath == null) {
             // 用户的当前工作目录
             File workDir = new File(System.getProperty("user.dir"));
@@ -68,20 +70,16 @@ public class Bootstrap {
         if (!debug) {
             checkAppDir(appDir);
         }
-        // 设置应用根目录属性
-        System.setProperty(HOME, appDir.getAbsolutePath());
+        // 设置应用服务根目录
+        System.setProperty(Env.HOME, appDir.getAbsolutePath());
     }
 
     private void checkAppDir(File appDir) {
         //验证应用根目录
-        if (!appDir.isDirectory()) {
-            throw new RuntimeException("不合法的应用根目录: " + appDir.getAbsolutePath());
-        }
+         CheckFile.use(appDir, "不合法的应用根目录");
         //验证LIB目录
         File libDir = new File(appDir, LIB);
-
         File[] files = libDir.listFiles(pathname -> pathname.getName().startsWith(module));
-
         if (files == null || files.length == 0 || files.length > 1) {
             throw new RuntimeException("不合法的LIB目录 没 " + module + "-xxx.jar文件: " + libDir.getAbsolutePath());
         }
@@ -91,7 +89,7 @@ public class Bootstrap {
     private void getLibClassLoader() {
         ArrayList<URL> libList = new ArrayList<>();
         URL[] libURLs = new URL[0];
-        File libDir = new File(System.getProperty(HOME), LIB);
+        File libDir = new File(System.getProperty(Env.HOME), LIB);
 
         // 添加lib目录下所有文件到classpath
         File[] files = libDir.listFiles();
@@ -111,7 +109,7 @@ public class Bootstrap {
     private void getExLibClassLoader() {
         List<URL> exLibList = new ArrayList<>();
         URL[] exLibURLs = new URL[0];
-        File extLibDir = new File(System.getProperty(HOME), EXT);
+        File extLibDir = new File(System.getProperty(Env.HOME), EXT);
         if (extLibDir.exists() || extLibDir.isDirectory()) {
             try {
                 // 添加lib/ext目录到classpath
@@ -126,7 +124,6 @@ public class Bootstrap {
                 e.printStackTrace();
             }
         }
-
         exLibURLs = exLibList.toArray(exLibURLs);
         extLibClassLoader = new URLClassLoader(exLibURLs, getClass().getClassLoader());
     }
