@@ -10,7 +10,7 @@ public class Boot {
         Env.set(Env.MODULE, module);
         mainThread.setName(module);
         try {
-            Bootstrap bootstrap = new Bootstrap(module,true);
+            Bootstrap bootstrap = new Bootstrap(module, true);
             bootstrap.start();
         } catch (Exception e) {
             e.printStackTrace();

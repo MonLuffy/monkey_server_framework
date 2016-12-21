@@ -4,13 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>stawhat</artifactId>
         <groupId>com.luffy</groupId>
+        <artifactId>stawhat</artifactId>
         <version>0.1.1</version>
     </parent>
+
     <groupId>com.luffy</groupId>
-    <artifactId>framework</artifactId>
+    <artifactId>demo</artifactId>
     <packaging>pom</packaging>
-    <name>framework for stawhat framework</name>
+    <name>demo for stawhat framework</name>
+    <dependencies>
+        <groupId>com.luffy</groupId>
+        <artifactId>framework</artifactId>
+        <version>0.1.1</version>
+    </dependencies>
 
 </project>
